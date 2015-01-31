@@ -9,6 +9,7 @@
       <script src="javascripts/phaser.js"></script>
       <script src="javascripts/game-intro.js"></script>
       <script src="javascripts/game-P2.js"></script>
+      <script src="javascripts/game-polish.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
     <title>Phasor-Learning Game</title>
   </head>
@@ -38,15 +39,16 @@
             <h3>Welcome to JmdJR's First Phaser Game!</h3>
           
             <p> First let me point out... I <em>MISSPELLED</em> the engine's name when I generated this repository... my bad. </p>
-            <p>This page will update periodically as I make some progress on a sample game using the Phaser.js Game Engine.  </p>
+            <p>This page will update periodically as I make some progress on a sample game using the Phaser.js Game Engine.</p>
             Table of Contents:
             <ul style="list-style-type: none;">
                 <li><a href="#Development-Concept">Development: Concept Contemplation</a></li>
                 <li><a href="#Developent-beginning">Developent: The Beginning</a></li>
                 <li><a href="#Developent-progress">Developent: Making Mistakes and Progress</a></li>
+                <li><a href="#Debugging-BugFix">Debugging: Bug Fixes and Enhancements</a></li>
             </ul>
             <h3 id="Development-Concept">Development: Concept Contemplation</h3>
-
+            <p>Date: 1/29/2015 6:00</p>
             <p>Here will be the Canvas based game, I don't know what I want to do at this point... maybe make a simple side scrolling platformer... a minimum viable product example.  Wish me luck!</p>
                 <p>First Canvas example:</p>
                 Comming Soon!
@@ -71,8 +73,10 @@
                 for now, this is my minimum product for the weekend.</p>
             <p>To be continued...</p>
             
-            <h3 id="Developent-beginning">Development: The beginning...</h3>
             <section>
+            <h3 id="Developent-beginning">Development: The beginning...</h3>
+            <p>Date: 1/30/2015 4:30pm</p>
+            
                 <p>
                     By development, I mean programming... so I am going to be researching into how to structure a phaser game.  I have found several examples on their examples page that I want to use as reference for my starting project. I will include links once I have figured out which ones I want to use.
                 </p>
@@ -92,6 +96,7 @@
             </section>
             <h3 id="Developent-progress">Development: Making Mistakes and Progress</h3>
             <section> 
+                <p>Date: 1/30/2015 6:00pm</p>
                 <p>Well, that went well.  but its not as flexible as I need it to be.  most of the functionality that is in the ARCADE physics engine is very fast, yes, but not as dynamic as I envision. after more research I found that the P2 engine is more up my alley.  So I will attempt to keep the first project up and start on a new game system using the P2 engine.</p>
                 <p> bellow are my new references:</p>
                 <ul>
@@ -105,6 +110,25 @@
                 <p>It works! well... that was a little too easy... Its late, and I have a load of new ideas for this little game.  tomorrow I will tackle a couple issues, like how the pulling is always happening from the center... (the paddle is supposed to tilt a little) and how there are collisions in the corners.  the paddle should stop right there, but sometimes it moves over its springs and can trap the ball under itself.</p>
                 <p>Until tomorrow!</p>
             </section>
+            
+            <section>
+                <h3 id="Debugging-BugFix">Debugging: Bug Fixes and Enhancements</h3>
+                <p>Date: 1/31/2015 12:00pm</p>
+                <p>More references:</p>
+                <ul>
+                <li><a href="http://examples.phaser.io/_site/view_full.html?d=misc&f=pause+menu.js&t=pause%20menu">Example: Pause Menus</a></li>
+                </ul>
+                <p> so far I have made a good deal of progress, but I think I have so much farther to go in this engine... there is so much potential! So for this section, I am going to run through and try to improve the original attmepts by putting a pause screen on them, so that you can observe each one individually.  I am also going to generate another script for the polishing version.</p>
+                <p> As the name suggests, this polishing section will be me cleaning up the code, but I will be writting the cleaner code in a separate file... So we can see each phase as I made them.  Once I am done, I will display and explain my code so that I can put this whole thing in perspective.  I may also return to each section and add code details and explain my thoughts.</p>
+                <p>Here is today's Build:</p>
+                <div id="game-polish"></div>
+                <p>So I decided to grab a new texture for the ball... still learning this engine and its kind of getting in the way of the javascript sometimes.  I am sure my code is not very clean, since I am pulling references from here and there.</p>
+                
+                
+            </section>
+            
+            
+            
         </section>
         
     </div>
@@ -112,7 +136,8 @@
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Phaser-learninggame maintained by <a href="https://github.com/jmdjr">jmdjr</a></p>
+          <p class="copyright">Started: 1/29/2015</p>
+        <p class="copyright">Phaser-learning game maintained by <a href="https://github.com/jmdjr">jmdjr</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>

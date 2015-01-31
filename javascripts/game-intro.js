@@ -7,7 +7,7 @@ function preload() {
 
 var ball;
 var paddle;
-
+var pauseLabel;
 function create() {
     game.stage.backgroundColor = '#0020FF';
     
@@ -37,6 +37,12 @@ function create() {
     paddle.events.onInputDown.add(chargePaddle);
     paddle.events.onInputUp.add(releasePaddle);
     
+    
+        // Pause functionality
+        pauseLabel = game.add.text(250, 200, 'Click to Play', {font: '56px Arial', fill: '#fff'});
+        game.paused = true;
+        game.input.onDown.add(unpause, self);
+    
 }
 
 function render() {
@@ -57,4 +63,10 @@ function releasePaddle(target, pointer) {
 
 function chargePaddle() {
     
+}
+
+
+function unpause (event){
+    game.paused = false;
+    pauseLabel.visible = game.paused;
 }

@@ -8,6 +8,8 @@ function p2_preload() {
 var ball_p2;
 var paddle_p2, leftAnchor, rightAnchor;
 var mouseBody, mouseSpring;
+var debugLine, drawLine;
+var pauseLabel_p2;
 
 function p2_create() {
     gameP2.stage.backgroundColor = '#0020FF';
@@ -41,17 +43,24 @@ function p2_create() {
     mouseBody.body.data.shapes[0].sensor = true;
     mouseBody.visible = false;
     
+//    // making Debug line
+//    debugLine = new Phaser.Line(mouseBody.x, mouseBody.y)
     
     gameP2.input.onDown.add(p2_onDown, this);
     gameP2.input.onUp.add(p2_onUp, this);
     gameP2.input.addMoveCallback(p2_move, this);
     
     
+        // Pause functionality
+        pauseLabel_p2 = gameP2.add.text(250, 200, 'Click to Play', {font: '56px Arial', fill: '#fff'});
+        gameP2.paused = true;
+        gameP2.input.onDown.add(p2_unpause, self);
+    
 }
 
 function p2_render() {
     gameP2.debug.inputInfo(10, 20);
-//    gameP2.debug.text('charging paddle!', 10, 110);
+    gameP2.debug.spriteInfo(mouseBody, 254,  20);
 }
 
 function p2_update() {
@@ -73,3 +82,8 @@ function p2_move(pointer, x, y, isDown) {
     mouseBody.body.x = x;
     mouseBody.body.y = y;
 }
+
+    function p2_unpause (event){
+        gameP2.paused = false;
+        pauseLabel_p2.visible = gameP2.paused;
+    }
