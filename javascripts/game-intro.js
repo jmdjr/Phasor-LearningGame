@@ -27,8 +27,16 @@ function create() {
     ball.body.collideWorldBounds = true;
     ball.body.bounce.y = 0.5;
     ball.body.gravity.y = 500;
+    game.camera.follow(ball, Phaser.Camera.FOLLOW_PLATFORMER);
     
     paddle.body.collideWorldBounds = true;
+    paddle.inputEnabled = true;
+    paddle.input.start(0, true); // called when inputEnabled is set automatically.
+    
+    paddle.input.allowHorizontalDrag = false;
+    paddle.events.onInputDown.add(chargePaddle);
+    paddle.events.onInputUp.add(releasePaddle);
+    
 }
 
 function render() {
@@ -40,5 +48,13 @@ function update() {
 }
 
 function collionHandler(a, b) {
+    
+}
+
+function releasePaddle(target, pointer) {
+        
+}
+
+function chargePaddle() {
     
 }
