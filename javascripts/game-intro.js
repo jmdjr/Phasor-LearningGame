@@ -31,7 +31,7 @@ function create() {
     
     paddle.body.collideWorldBounds = true;
     paddle.inputEnabled = true;
-    paddle.input.start(0, true); // called when inputEnabled is set automatically.
+    // paddle.input.start(0, true); // called when inputEnabled is set automatically.
     
     paddle.input.allowHorizontalDrag = false;
     paddle.events.onInputDown.add(chargePaddle);

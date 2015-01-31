@@ -5,62 +5,71 @@ function p2_preload() {
     gameP2.load.image('paddle', 'images/Paddle.png');
 }
 
-var ball;
-var paddle, leftAnchor, rightAnchor;
+var ball_p2;
+var paddle_p2, leftAnchor, rightAnchor;
+var mouseBody, mouseSpring;
 
 function p2_create() {
     gameP2.stage.backgroundColor = '#0020FF';
     
     gameP2.physics.startSystem(Phaser.Physics.P2JS);
     
-    ball = gameP2.add.sprite(400, 200, 'ball');  
-    paddle = gameP2.add.sprite(400, 400, 'paddle');
-    leftAnchor = new Phaser.Circle(0,0, 32);
-    rightAnchor = new Phaser.Circle(0,0, 32);
-    //ball is 66x66
-    ball.anchor.set(0.5);
-    
-    //paddle is 800 x 66
-    paddle.anchor.set(0.5);
-    
-    gameP2.physics.enable([ball, paddle], Phaser.Physics.P2JS);
+    ball_p2 = gameP2.add.sprite(400, 200, 'ball');  
+    paddle_p2 = gameP2.add.sprite(400, 400, 'paddle');
+    leftAnchor = gameP2.add.sprite(0, 350, 'ball');
+    rightAnchor = gameP2.add.sprite(800, 350, 'ball');
+    mouseBody = gameP2.add.sprite(0, 0, 'ball');
     
     gameP2.physics.p2.gravity.y = 500;
     gameP2.physics.p2.restitution = 0.5;
     
+    gameP2.physics.enable([ball_p2, paddle_p2, leftAnchor, rightAnchor, mouseBody], Phaser.Physics.P2JS);
+    
+    ball_p2.body.setCircle(33);
+    ball_p2.body.mass = 0.5;
+    
+    leftAnchor.body.static = true;
+    leftAnchor.visible = false;
+    gameP2.physics.p2.createSpring(paddle_p2, leftAnchor, 10, 20, 0, null, null, [400, 0]);
+    
+    rightAnchor.body.static = true;
+    rightAnchor.visible = false;
+    gameP2.physics.p2.createSpring(paddle_p2, rightAnchor, 10, 20, 0, null, null, [-400, 0]);
+    
+    // mouse's body used for collision detection
+    mouseBody.body.static = true;
+    mouseBody.body.data.shapes[0].sensor = true;
+    mouseBody.visible = false;
     
     
-/*    ball.body.collideWorldBounds = true;
-    ball.body.bounce.y = 0.5;
-    ball.body.gravity.y = 500;
-    gameP2.camera.follow(ball, Phaser.Camera.FOLLOW_PLATFORMER);
+    gameP2.input.onDown.add(p2_onDown, this);
+    gameP2.input.onUp.add(p2_onUp, this);
+    gameP2.input.addMoveCallback(p2_move, this);
     
-    paddle.body.collideWorldBounds = true;
-    paddle.inputEnabled = true;
-    // paddle.input.start(0, true); // called when inputEnabled is set automatically.
-    
-    paddle.input.allowHorizontalDrag = false;
-    paddle.events.onInputDown.add(chargePaddle);
-    paddle.events.onInputUp.add(releasePaddle);*/
     
 }
 
 function p2_render() {
     gameP2.debug.inputInfo(10, 20);
+//    gameP2.debug.text('charging paddle!', 10, 110);
 }
 
 function p2_update() {
-    gameP2.physics.arcade.collide(ball, paddle, collionHandler, null, this);
 }
 
-function p2_collionHandler(a, b) {
+function p2_onDown(pointer) {
+    var bodies = gameP2.physics.p2.hitTest(pointer.position, [ paddle_p2.body ]);
     
+    if(bodies.length) {
+        mouseSpring = gameP2.physics.p2.createSpring(mouseBody, bodies[0], 0, 100, 1);
+    }
 }
 
-function p2_releasePaddle(target, pointer) {
-        
+function p2_onUp() {
+    gameP2.physics.p2.removeSpring(mouseSpring);
 }
 
-function p2_chargePaddle() {
-    
+function p2_move(pointer, x, y, isDown) {
+    mouseBody.body.x = x;
+    mouseBody.body.y = y;
 }
