@@ -6,7 +6,7 @@ function p2_preload() {
 }
 
 var ball;
-var paddle;
+var paddle, leftAnchor, rightAnchor;
 
 function p2_create() {
     gameP2.stage.backgroundColor = '#0020FF';
@@ -15,7 +15,8 @@ function p2_create() {
     
     ball = gameP2.add.sprite(400, 200, 'ball');  
     paddle = gameP2.add.sprite(400, 400, 'paddle');
-    
+    leftAnchor = new Phaser.Circle(0,0, 32);
+    rightAnchor = new Phaser.Circle(0,0, 32);
     //ball is 66x66
     ball.anchor.set(0.5);
     
@@ -23,6 +24,11 @@ function p2_create() {
     paddle.anchor.set(0.5);
     
     gameP2.physics.enable([ball, paddle], Phaser.Physics.P2JS);
+    
+    gameP2.physics.p2.gravity.y = 500;
+    gameP2.physics.p2.restitution = 0.5;
+    
+    
     
 /*    ball.body.collideWorldBounds = true;
     ball.body.bounce.y = 0.5;
