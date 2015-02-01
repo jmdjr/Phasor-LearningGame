@@ -11,22 +11,32 @@ var gamePolish = function() {
     var paddle, leftAnchor, rightAnchor;
     var mouseBody, mouseConstraint;
     var pauseLabel;
+    var backgroundColor = 8447; // #0020FF
+    var maxHeight = 0;
+    var ballEmitter;
+    
+    function generateBackgroundHex(digits) {
+        return '#' + ("000000" + digits.toString(16)).substr(-6);    
+    }
     
     function create() {
         
-        this.game.world.setBounds(0, 0, 800, 1000);
-        this.game.stage.backgroundColor = '#0020FF';
+        this.game.world.setBounds(0, -99400, 800, 100000);
+        this.game.stage.backgroundColor = generateBackgroundHex(backgroundColor);
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         
         
 //        var vOff = this.game.world.
         this.ball = this.game.add.sprite(400, 200, 'snooker');  
         this.paddle = this.game.add.sprite(400, 400, 'paddle');
-        
         this.leftAnchor = this.game.add.sprite(0, 350, 'snooker');
         this.rightAnchor = this.game.add.sprite(800, 350, 'snooker');
         
+        this.game.camera.follow(this.ball, Phaser.Camera.FOLLOW_TOPDOWN);
         this.mouseBody = new p2.Body();
+        
+        this.mouseBody.position.x = 400;
+        this.mouseBody.position.y = 400;
         
         this.game.physics.p2.gravity.y = 500;
         this.game.physics.p2.restitution = 0.5;
@@ -38,8 +48,14 @@ var gamePolish = function() {
         
         this.ball.body.setCircle(26);
         this.ball.body.mass = 0.5;
+        this.ballEmitter = game.add.emitter();
+        this.ballEmitter.makeParticles('snooker');
+        this.ball.addChild(this.ballEmitter);
+        
+        
         this.leftAnchor.body.static = true;
         this.leftAnchor.body.clearShapes();
+        
         
         this.rightAnchor.body.static = true;
         this.rightAnchor.body.clearShapes();
@@ -66,12 +82,19 @@ var gamePolish = function() {
     }
 
     function render() {
-        //game.debug.inputInfo(10, 20);
-        //game.debug.spriteInfo(mouseBody, 254,  20);
-    //    game.debug.text('charging paddle!', 10, 110);
+        game.debug.text("Max Height:" + maxHeight.toString(10), 20, 20);
     }
 
     function update() {
+        
+        if(Math.abs(this.world.y) > maxHeight) maxHeight = Math.abs(this.world.y);
+        if(this.world.y >= 0) { 
+            this.ballEmitter.kill(); 
+        }
+            else 
+            {
+                this.ballEmitter.start(false, 5000, 50);
+            }
     }
 
     function onDown(pointer) {
