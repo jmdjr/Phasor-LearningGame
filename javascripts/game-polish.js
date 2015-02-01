@@ -26,7 +26,6 @@ var gamePolish = function() {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         
         
-//        var vOff = this.game.world.
         this.ball = this.game.add.sprite(400, 200, 'snooker');  
         this.paddle = this.game.add.sprite(400, 400, 'paddle');
         this.leftAnchor = this.game.add.sprite(0, 350, 'snooker');
@@ -48,10 +47,10 @@ var gamePolish = function() {
         
         this.ball.body.setCircle(26);
         this.ball.body.mass = 0.5;
-        this.ballEmitter = game.add.emitter();
-        this.ballEmitter.makeParticles('snooker');
-        this.ball.addChild(this.ballEmitter);
         
+        this.ballEmitter = game.add.emitter(400, 200, 0);
+        this.ballEmitter.makeParticles('snooker');
+        this.ballEmitter.start(false, 200, 20);
         
         this.leftAnchor.body.static = true;
         this.leftAnchor.body.clearShapes();
@@ -83,18 +82,22 @@ var gamePolish = function() {
 
     function render() {
         game.debug.text("Max Height:" + maxHeight.toString(10), 20, 20);
+        //game.debug.cameraInfo(this.game.camera, 240, 20);
     }
 
     function update() {
         
         if(Math.abs(this.world.y) > maxHeight) maxHeight = Math.abs(this.world.y);
-        if(this.world.y >= 0) { 
-            this.ballEmitter.kill(); 
+        
+        if(this.camera.y >= -100) {
+            this.ballEmitter.on = false;
         }
-            else 
-            {
-                this.ballEmitter.start(false, 5000, 50);
-            }
+        else {
+            this.ballEmitter.on = true;
+        }
+        
+        this.ballEmitter.x = this.ball.x;
+        this.ballEmitter.y = this.ball.y;
     }
 
     function onDown(pointer) {
