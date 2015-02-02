@@ -5,11 +5,6 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Phasor-learninggame : Learning Phaser.js, going to stick with javascript">
-
-      <script src="javascripts/phaser.js"></script>
-      <script src="javascripts/game-intro.js"></script>
-      <script src="javascripts/game-P2.js"></script>
-      <script src="javascripts/game-polish.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
     <title>Phasor-Learning Game</title>
   </head>
@@ -92,7 +87,9 @@
                 </ul>
                 
                 Here we go... here is the first actual version. (if your currently seeing this... yea, it looks silly but its a small milestone.)
-                <div id="game-intro"></div>
+                
+                <iframe src="Intro.html" style="height:600px; width:800px"></iframe>
+                
             </section>
             <h3 id="Developent-progress">Development: Making Mistakes and Progress</h3>
             <section> 
@@ -106,7 +103,7 @@
                     <li><a href="http://examples.phaser.io/_site/view_full.html?d=p2%20physics&f=mouse+spring.js&t=mouse%20spring" target="_blank">Example: Springs and Mouse Input</a></li>
                 </ul>
                 <p>Here is the next attempt at the same game, different physics engine:</p>
-                <div id="game-P2"></div>
+                <iframe src="P2.html" style="height:600px; width:800px"></iframe>
                 <p>It works! well... that was a little too easy... Its late, and I have a load of new ideas for this little game.  tomorrow I will tackle a couple issues, like how the pulling is always happening from the center... (the paddle is supposed to tilt a little) and how there are collisions in the corners.  the paddle should stop right there, but sometimes it moves over its springs and can trap the ball under itself.</p>
                 <p>Until tomorrow!</p>
             </section>
@@ -121,14 +118,11 @@
                 <p> so far I have made a good deal of progress, but I think I have so much farther to go in this engine... there is so much potential! So for this section, I am going to run through and try to improve the original attmepts by putting a pause screen on them, so that you can observe each one individually.  I am also going to generate another script for the polishing version.</p>
                 <p> As the name suggests, this polishing section will be me cleaning up the code, but I will be writting the cleaner code in a separate file... So we can see each phase as I made them.  Once I am done, I will display and explain my code so that I can put this whole thing in perspective.  I may also return to each section and add code details and explain my thoughts.</p>
                 <p>Here is today's Build:</p>
-                <div id="game-polish"></div>
+                <iframe src="Debugging.html" style="height:600px; width:800px"></iframe>
                 <p>So I decided to grab a new texture for the ball... still learning this engine and its kind of getting in the way of the javascript sometimes.  I am sure my code is not very clean, since I am pulling references from here and there.</p>
                 
                 <p>Got caught up in some personal activities, and didn't get much more done, but this one is nice.  I may get a chance to display some of the code here in a bit, but its late again... just note that the hit  rectangle for the paddle appears to shift up almost a whole paddle height when the ball returns.  this makes it a little awkward when trying again, or maybe its a feature and you use it to get the ball higher! I also finally got a particle emitter going so the ball has a neat tail while it travels.  </p>
             </section>
-            
-            
-            
         </section>
         
     </div>
