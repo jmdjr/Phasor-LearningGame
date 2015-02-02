@@ -14,6 +14,7 @@ var gamePolish = function() {
     var backgroundColor = 8447; // #0020FF
     var maxHeight = 0;
     var ballEmitter;
+//    var backgroundGradient;
     
     function generateBackgroundHex(digits) {
         return '#' + ("000000" + digits.toString(16)).substr(-6);    
@@ -21,10 +22,12 @@ var gamePolish = function() {
     
     function create() {
         
+        this.game.stage.backgroundColor = '#0020FF';
         this.game.world.setBounds(0, -99400, 800, 100000);
-        this.game.stage.backgroundColor = generateBackgroundHex(backgroundColor);
+//        backgroundGradient = game.add.bitmapData(800, 100000, 'background', true);
+//        backgroundGradient.rect(20, 20, 120, 120);
+//        backgroundGradient.addToWorld();
         this.game.physics.startSystem(Phaser.Physics.P2JS);
-        
         
         this.ballEmitter = game.add.emitter(400, 200, 0);
         this.ball = this.game.add.sprite(400, 200, 'snooker');  
@@ -80,7 +83,8 @@ var gamePolish = function() {
         this.game.input.onDown.add(unpause, this);
     }
 
-    function render() {
+    function render() {        
+        
         game.debug.text("Max Height:" + maxHeight.toString(10), 20, 40);
         
         var currentHeight = 0;
@@ -94,6 +98,11 @@ var gamePolish = function() {
     }
 
     function update() {
+//        var grd = backgroundGradient.context.createLinearGradient(0, 20, 0, 120);
+//        grd.addColorStop(0, '#8ED6FF');
+//        grd.addColorStop(1, '#003BA2');
+//        backgroundGradient.context.fillStyle = grd;
+//        backgroundGradient.context.fillRect(20, 20, 150, 100);
         
         if(Math.abs(this.world.y) > maxHeight) maxHeight = Math.abs(this.world.y);
         
