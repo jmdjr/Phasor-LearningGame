@@ -1,34 +1,26 @@
-var gamePolish = function() {
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-polish', { preload: preload, create: create, render: render, update: update });
+var gamePolish = function () {
+    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game-polish', { preload: preload, create: create, render: render, update: update });
 
     //preloads images, audio and anything else.
     function preload() {
         this.game.load.image('snooker', 'images/snooker.png');
         this.game.load.image('paddle', 'images/Paddle.png');
+//        this.game.load.image('background', 'images/backgroundGradient.png');
     }
     
     var ball;
     var paddle, leftAnchor, rightAnchor;
     var mouseBody, mouseConstraint;
     var pauseLabel;
-    var backgroundColor = 8447; // #0020FF
+    var background;
     var maxHeight = 0;
     var ballEmitter;
-//    var backgroundGradient;
-    
-    function generateBackgroundHex(digits) {
-        return '#' + ("000000" + digits.toString(16)).substr(-6);    
-    }
-    
+    var fullHeight;
     function create() {
-        
-        this.game.stage.backgroundColor = '#0020FF';
-        this.game.world.setBounds(0, -99400, 800, 100000);
-//        backgroundGradient = game.add.bitmapData(800, 100000, 'background', true);
-//        backgroundGradient.rect(20, 20, 120, 120);
-//        backgroundGradient.addToWorld();
+        fullHeight = 50000;
+        this.game.world.setBounds(0, -1 * (fullHeight - 600), 800, fullHeight);
         this.game.physics.startSystem(Phaser.Physics.P2JS);
-        
+
         this.ballEmitter = game.add.emitter(400, 200, 0);
         this.ball = this.game.add.sprite(400, 200, 'snooker');  
         this.paddle = this.game.add.sprite(400, 400, 'paddle');
@@ -58,7 +50,6 @@ var gamePolish = function() {
         this.leftAnchor.body.static = true;
         this.leftAnchor.body.clearShapes();
         
-        
         this.rightAnchor.body.static = true;
         this.rightAnchor.body.clearShapes();
         
@@ -70,7 +61,11 @@ var gamePolish = function() {
         
         
        this.game.physics.p2.createSpring(this.paddle, this.rightAnchor, restLength, stiffness, damping, null, null, [-350, 0], [0, 0]);
-
+        
+        // debuging by applying upward force on ball.
+        //this.ball.body.applyForce([0, 3000], 400, 200);
+        
+        
         // mouse's body used for collision detection
 
         this.game.input.onDown.add(onDown, this);
@@ -80,11 +75,9 @@ var gamePolish = function() {
         // Pause functionality
         this.pauseLabel = this.game.add.text(250, 200, 'Click to Play', {font: '56px Arial', fill: '#fff'});
         this.game.paused = true;
-        this.game.input.onDown.add(unpause, this);
     }
 
     function render() {        
-        
         game.debug.text("Max Height:" + maxHeight.toString(10), 20, 40);
         
         var currentHeight = 0;
@@ -94,16 +87,17 @@ var gamePolish = function() {
         else {
             currentHeight = 0;
         }
+        
         game.debug.text("Height:" + currentHeight.toString(10), 20, 20);
+        
+        var factor = 1000;
+        var step = Math.floor(1/factor * (currentHeight));
+        var totalSteps = fullHeight / factor;
+        var color = Phaser.Color.interpolateRGB(0, 0, 255, 255, 255, 255, totalSteps, step);
+        game.stage.setBackgroundColor(color);
     }
 
     function update() {
-//        var grd = backgroundGradient.context.createLinearGradient(0, 20, 0, 120);
-//        grd.addColorStop(0, '#8ED6FF');
-//        grd.addColorStop(1, '#003BA2');
-//        backgroundGradient.context.fillStyle = grd;
-//        backgroundGradient.context.fillRect(20, 20, 150, 100);
-        
         if(Math.abs(this.world.y) > maxHeight) maxHeight = Math.abs(this.world.y);
         
         if(this.camera.y >= -100) {
@@ -118,6 +112,10 @@ var gamePolish = function() {
     }
 
     function onDown(pointer) {
+        if(game.paused) {
+            game.paused = false;
+            this.pauseLabel.visible = game.paused;
+        } else {
         var bodies = this.game.physics.p2.hitTest(pointer.position, [ this.paddle.body ]);
         var physicsPos = [this.game.physics.p2.pxmi(pointer.position.x), this.game.physics.p2.pxmi(pointer.position.y)];
         
@@ -131,6 +129,7 @@ var gamePolish = function() {
             
             this.mouseConstraint = this.game.physics.p2.createRevoluteConstraint(this.mouseBody, [0,0], clickedBody, newLocal);
         }
+           }
     }
 
     function onUp() {
@@ -140,11 +139,6 @@ var gamePolish = function() {
     function move(pointer) {
         this.mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
         this.mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
-    }
-    
-    function unpause (event){
-        game.paused = false;
-        this.pauseLabel.visible = game.paused;
     }
 }
 
